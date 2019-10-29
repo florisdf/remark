@@ -139,7 +139,7 @@ describe('<AuthPanel />', () => {
 
       const userInfo = authPanelColumn.first();
 
-      expect(userInfo.text()).toEqual(expect.stringContaining('You signed in as John'));
+      expect(userInfo.text()).toEqual(expect.stringContaining('Je bent aangemeld als John'));
     });
   });
   describe('For admin user', () => {
@@ -150,7 +150,7 @@ describe('<AuthPanel />', () => {
 
       const adminAction = element.find('.auth-panel__admin-action').first();
 
-      expect(adminAction.text()).toEqual('Show settings');
+      expect(adminAction.text()).toEqual('Toon instellingen');
     });
   });
 });

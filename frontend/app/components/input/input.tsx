@@ -8,19 +8,14 @@ import { h, Component, RenderableProps } from 'preact';
 import b, { Mix } from 'bem-react-helper';
 
 import { User, Theme, Image, ApiError } from '@app/common/types';
-import { BASE_URL, API_BASE } from '@app/common/constants';
 import { StaticStore } from '@app/common/static_store';
-import { siteId, url, pageTitle } from '@app/common/settings';
+import { pageTitle } from '@app/common/settings';
 import { extractErrorMessageFromResponse } from '@app/utils/errorUtils';
 
 import MarkdownToolbar from './markdown-toolbar';
 import TextareaAutosize from './textarea-autosize';
 import { sleep } from '@app/utils/sleep';
 import { replaceSelection } from '@app/utils/replaceSelection';
-
-const RSS_THREAD_URL = `${BASE_URL}${API_BASE}/rss/post?site=${siteId}&url=${url}`;
-const RSS_SITE_URL = `${BASE_URL}${API_BASE}/rss/site?site=${siteId}`;
-const RSS_REPLIES_URL = `${BASE_URL}${API_BASE}/rss/reply?site=${siteId}&user=`;
 
 let textareaId = 0;
 
@@ -57,9 +52,9 @@ interface State {
 }
 
 const Labels = {
-  main: 'Send',
-  edit: 'Save',
-  reply: 'Reply',
+  main: 'Verzend',
+  edit: 'Sla op',
+  reply: 'Reageer',
 };
 
 const ImageMimeRegex = /image\//i;
@@ -376,7 +371,7 @@ export class Input extends Component<Props, State> {
             onPaste={this.onPaste}
             ref={ref => (this.textAreaRef = ref)}
             className="input__field"
-            placeholder="Your comment here"
+            placeholder="Jouw reactie hier"
             value={text}
             maxLength={maxLength}
             onInput={this.onInput}
@@ -403,37 +398,12 @@ export class Input extends Component<Props, State> {
             disabled={isDisabled}
             onClick={this.getPreview}
           >
-            Preview
+            Voorbeeld
           </button>
 
           <button className={b('input__button', {}, { type: 'send' })} type="submit" disabled={isDisabled}>
             {label}
           </button>
-
-          {props.mode === 'main' && (
-            <div className="input__rss">
-              <div class="input__markdown">
-                Styling with{' '}
-                <a className="input__markdown-link" target="_blank" href="markdown-help.html">
-                  Markdown
-                </a>{' '}
-                is supported
-              </div>
-              Subscribe to&nbsp;the{' '}
-              <a className="input__rss-link" href={RSS_THREAD_URL} target="_blank">
-                Thread
-              </a>
-              {', '}
-              <a className="input__rss-link" href={RSS_SITE_URL} target="_blank">
-                Site
-              </a>{' '}
-              or&nbsp;
-              <a className="input__rss-link" href={RSS_REPLIES_URL + props.userId} target="_blank">
-                Replies
-              </a>{' '}
-              by&nbsp;RSS
-            </div>
-          )}
         </div>
 
         {// TODO: it can be more elegant;

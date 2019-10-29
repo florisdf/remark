@@ -311,13 +311,6 @@ export class Root extends Component<Props, State> {
               />
             </div>
           )}
-
-          <p className="root__copyright" role="contentinfo">
-            Powered by{' '}
-            <a href="https://remark42.com/" className="root__copyright-link">
-              Remark42
-            </a>
-          </p>
         </div>
       </div>
     );

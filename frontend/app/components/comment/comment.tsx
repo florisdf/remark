@@ -213,7 +213,7 @@ export class Comment extends Component<Props, State> {
   };
 
   deleteComment = () => {
-    if (confirm('Do you want to delete this comment?')) {
+    if (confirm('Wil je deze reactie verwijderen?')) {
       this.props.setReplyEditState!({ id: this.props.data.id, state: CommentMode.None });
 
       this.props.removeComment!(this.props.data.id);
@@ -221,7 +221,7 @@ export class Comment extends Component<Props, State> {
   };
 
   hideUser = () => {
-    if (!confirm(`Do you want to hide comments of ${this.props.data.user.name}?`)) return;
+    if (!confirm(`Wil je de reacties van ${this.props.data.user.name} verbergen?`)) return;
     this.props.hideUser!(this.props.data.user);
   };
 
@@ -348,13 +348,13 @@ export class Comment extends Component<Props, State> {
    * returns reason for disabled downvoting
    */
   getDownvoteDisabledReason = (): string | null => {
-    if (!(this.props.view === 'main' || this.props.view === 'pinned')) return "Voting allowed only on post's page";
-    if (this.props.post_info!.read_only) return "Can't vote on read-only topics";
-    if (this.props.data.delete) return "Can't vote for deleted comment";
-    if (this.isCurrentUser()) return "Can't vote for your own comment";
-    if (StaticStore.config.positive_score && this.props.data.score < 1) return 'Only positive score allowed';
-    if (this.isGuest()) return 'Sign in to vote';
-    if (this.isAnonymous()) return "Anonymous users can't vote";
+    if (!(this.props.view === 'main' || this.props.view === 'pinned')) return "Stemmen kan enkel op de pagina van de post zelf";
+    if (this.props.post_info!.read_only) return "Je kan niet stemmen op read-only topics";
+    if (this.props.data.delete) return "Je kan niet stemmen op verwijderde reacties";
+    if (this.isCurrentUser()) return "Je kan niet stemmen op je eigen reactie";
+    if (StaticStore.config.positive_score && this.props.data.score < 1) return 'Enkel positieve scores zijn toegelaten';
+    if (this.isGuest()) return 'Meld je aan om te kunnen stemmen';
+    if (this.isAnonymous()) return "Anonieme gebruikers kunnen niet stemmen";
     return null;
   };
 
@@ -362,12 +362,12 @@ export class Comment extends Component<Props, State> {
    * returns reason for disabled upvoting
    */
   getUpvoteDisabledReason = (): string | null => {
-    if (!(this.props.view === 'main' || this.props.view === 'pinned')) return "Voting allowed only on post's page";
-    if (this.props.post_info!.read_only) return "Can't vote on read-only topics";
-    if (this.props.data.delete) return "Can't vote for deleted comment";
-    if (this.isCurrentUser()) return "Can't vote for your own comment";
-    if (this.isGuest()) return 'Sign in to vote';
-    if (this.isAnonymous()) return "Anonymous users can't vote";
+    if (!(this.props.view === 'main' || this.props.view === 'pinned')) return "Stemmen kan enkel op de pagina van de post zelf";
+    if (this.props.post_info!.read_only) return "Je kan niet stemmen op read-only topics";
+    if (this.props.data.delete) return "Je kan niet stemmen op verwijderde reacties";
+    if (this.isCurrentUser()) return "Je kan niet stemmen op je eigen reactie";
+    if (this.isGuest()) return 'Meld je aan om te kunnen stemmen';
+    if (this.isAnonymous()) return "Anonieme gebruikers kunnen niet stemmen";
     return null;
   };
 
@@ -387,10 +387,10 @@ export class Comment extends Component<Props, State> {
     if (isAdmin) {
       controls.push(
         this.state.isCopied ? (
-          <span className="comment__control comment__control_view_inactive">Copied!</span>
+          <span className="comment__control comment__control_view_inactive">Gekopieerd!</span>
         ) : (
           <span {...getHandleClickProps(this.copyComment)} className="comment__control">
-            Copy
+            Kopieer
           </span>
         )
       );
@@ -405,7 +405,7 @@ export class Comment extends Component<Props, State> {
     if (!isCurrentUser) {
       controls.push(
         <span {...getHandleClickProps(this.hideUser)} className="comment__control">
-          Hide
+          Verberg
         </span>
       );
     }
@@ -439,7 +439,7 @@ export class Comment extends Component<Props, State> {
       if (!this.props.data.delete) {
         controls.push(
           <span {...getHandleClickProps(this.deleteComment)} className="comment__control">
-            Delete
+            Verwijder
           </span>
         );
       }
@@ -470,7 +470,7 @@ export class Comment extends Component<Props, State> {
      */
     const o = {
       ...props.data,
-      controversyText: `Controversy: ${(props.data.controversy || 0).toFixed(2)}`,
+      controversyText: `Controverse: ${(props.data.controversy || 0).toFixed(2)}`,
       text:
         props.view === 'preview'
           ? getTextSnippet(props.data.text)
@@ -588,14 +588,14 @@ export class Comment extends Component<Props, State> {
             {isAdmin && props.view !== 'user' && (
               <span
                 {...getHandleClickProps(this.toggleVerify)}
-                aria-label="Toggle verification"
-                title={o.user.verified ? 'Verified user' : 'Unverified user'}
+                aria-label="Toggle verificatie"
+                title={o.user.verified ? 'Geverifieerde gebruiker' : 'Niet-geverifieerde gebruiker'}
                 className={b('comment__verification', {}, { active: o.user.verified, clickable: true })}
               />
             )}
 
             {!isAdmin && !!o.user.verified && props.view !== 'user' && (
-              <span title="Verified user" className={b('comment__verification', {}, { active: true })} />
+              <span title="Geverifieerde gebruiker" className={b('comment__verification', {}, { active: true })} />
             )}
 
             <a href={`${o.locator.url}#${COMMENT_NODE_CLASSNAME_PREFIX}${o.id}`} className="comment__time">
@@ -606,17 +606,17 @@ export class Comment extends Component<Props, State> {
               <a
                 className="comment__link-to-parent"
                 href={`${o.locator.url}#${COMMENT_NODE_CLASSNAME_PREFIX}${o.pid}`}
-                aria-label="Go to parent comment"
-                title="Go to parent comment"
+                aria-label="Ga naar oorspronkelijke reactie"
+                title="Ga naar oorspronkelijke reactie"
                 onClick={e => this.scrollToParent(e)}
               >
                 {' '}
               </a>
             )}
 
-            {props.isUserBanned && props.view !== 'user' && <span className="comment__status">Blocked</span>}
+            {props.isUserBanned && props.view !== 'user' && <span className="comment__status">Geblokkeerd</span>}
 
-            {isAdmin && !props.isUserBanned && props.data.delete && <span className="comment__status">Deleted</span>}
+            {isAdmin && !props.isUserBanned && props.data.delete && <span className="comment__status">Verwijderd</span>}
 
             {!props.disabled && props.view === 'main' && (
               <span
@@ -638,7 +638,7 @@ export class Comment extends Component<Props, State> {
                 {...getHandleClickProps(isUpvotingDisabled ? undefined : this.increaseScore)}
                 title={upvotingDisabledReason || undefined}
               >
-                Vote up
+                Stem omhoog
               </span>
 
               <span className="comment__score-value" title={o.controversyText}>
@@ -656,7 +656,7 @@ export class Comment extends Component<Props, State> {
                 {...getHandleClickProps(isDownvotingDisabled ? undefined : this.decreaseScore)}
                 title={downvotingDisabledReason || undefined}
               >
-                Vote down
+              Stem omlaag
               </span>
             </span>
           </div>
@@ -679,7 +679,7 @@ export class Comment extends Component<Props, State> {
             <div className="comment__actions">
               {!props.data.delete && !props.isCommentsDisabled && !props.disabled && !isGuest && props.view === 'main' && (
                 <span {...getHandleClickProps(this.toggleReplying)} className="comment__action">
-                  {isReplying ? 'Cancel' : 'Reply'}
+                  {isReplying ? 'Annuleer' : 'Reageer'}
                 </span>
               )}
 
@@ -693,14 +693,14 @@ export class Comment extends Component<Props, State> {
                     {...getHandleClickProps(this.toggleEditing)}
                     className="comment__action comment__action_type_edit"
                   >
-                    {isEditing ? 'Cancel' : 'Edit'}
+                    {isEditing ? 'Annuleer' : 'Wijzig'}
                   </span>,
                   !isAdmin && (
                     <span
                       {...getHandleClickProps(this.deleteComment)}
                       className="comment__action comment__action_type_delete"
                     >
-                      Delete
+                      Verwijder
                     </span>
                   ),
                   state.editDeadline && (

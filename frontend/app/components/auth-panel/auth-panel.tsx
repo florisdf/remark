@@ -159,7 +159,7 @@ export class AuthPanel extends Component<Props, State> {
 
     return (
       <div className="auth-panel__column">
-        You signed in as{' '}
+        Je bent aangemeld als{' '}
         <Dropdown title={user.name} theme={this.props.theme}>
           <DropdownItem separator={!isUserAnonymous}>
             <UserID id={user.id} theme={this.props.theme} {...getHandleClickProps(this.toggleUserInfoVisibility)} />
@@ -168,13 +168,13 @@ export class AuthPanel extends Component<Props, State> {
           {!isUserAnonymous && (
             <DropdownItem>
               <Button kind="link" theme={this.props.theme} onClick={() => requestDeletion().then(onSignOut)}>
-                Request my data removal
+                Vraag aan om mijn data te verwijderen
               </Button>
             </DropdownItem>
           )}
         </Dropdown>{' '}
         <Button className="auth-panel__sign-out" kind="link" theme={this.props.theme} onClick={onSignOut}>
-          Sign out?
+          Afmelden?
         </Button>
       </div>
     );
@@ -233,7 +233,7 @@ export class AuthPanel extends Component<Props, State> {
   renderOther = (providers: (AuthProvider['name'])[]) => {
     return (
       <Dropdown
-        title="Other"
+        title="Andere"
         titleClass="auth-panel__pseudo-link"
         theme={this.props.theme}
         onTitleClick={this.onEmailTitleClick}
@@ -250,7 +250,7 @@ export class AuthPanel extends Component<Props, State> {
     const { threshold } = this.state;
     if (user || !IS_STORAGE_AVAILABLE) return null;
 
-    const signInMessage = postInfo.read_only ? 'Sign in using ' : 'Sign in to comment using ';
+    const signInMessage = postInfo.read_only ? 'Meld aan met ' : 'Meld aan om te reageren met ';
     const sortedProviders = ((): typeof providers => {
       if (!this.props.provider.name) return providers;
       const lastProviderIndex = providers.indexOf(this.props.provider.name as typeof providers[0]);
@@ -269,7 +269,7 @@ export class AuthPanel extends Component<Props, State> {
         {signInMessage}
         {!isAboveThreshold &&
           sortedProviders.map((provider, i) => {
-            const comma = i === 0 ? '' : i === sortedProviders.length - 1 ? ' or ' : ', ';
+            const comma = i === 0 ? '' : i === sortedProviders.length - 1 ? ' of ' : ', ';
 
             return (
               <span>
@@ -291,7 +291,7 @@ export class AuthPanel extends Component<Props, State> {
           })}
         {isAboveThreshold && (
           <span>
-            {' or '}
+            {' of '}
             {this.renderOther(sortedProviders.slice(threshold - 1))}
           </span>
         )}
@@ -351,7 +351,7 @@ export class AuthPanel extends Component<Props, State> {
     const sortArray = getSortArray(sort);
     return (
       <span className="auth-panel__sort">
-        Sort by{' '}
+        Sorteer volgens{' '}
         <span className="auth-panel__select-label">
           <span className={b('auth-panel__select-label-value', {}, { focused: sortSelectFocused })}>
             {sortArray.find(x => 'selected' in x && x.selected!)!.label}
@@ -414,35 +414,35 @@ function getSortArray(currentSort: Sorting) {
   }[] = [
     {
       value: '-score',
-      label: 'Best',
+      label: 'Hoogste score',
     },
     {
       value: '+score',
-      label: 'Worst',
+      label: 'Laagste score',
     },
     {
       value: '-time',
-      label: 'Newest',
+      label: 'Meest recent',
     },
     {
       value: '+time',
-      label: 'Oldest',
+      label: 'Minst recent',
     },
     {
       value: '-active',
-      label: 'Recently updated',
+      label: 'Recent aangepast',
     },
     {
       value: '+active',
-      label: 'Least recently updated',
+      label: 'Minst recent aangepast',
     },
     {
       value: '-controversy',
-      label: 'Most controversial',
+      label: 'Meest controversieel',
     },
     {
       value: '+controversy',
-      label: 'Least controversial',
+      label: 'Minst controversieel',
     },
   ];
 
